@@ -1,13 +1,3 @@
-"""
-Módulo com a classe Imagem.
-
-Representa um arquivo de imagem (.jpg ou .png), validando sua extensão,
-carregando o conteúdo com Pillow e oferecendo utilitários relacionados
-(como listar as imagens de um diretório).
-
-OBS: Versão simplificada, sem uso de decoradores (@staticmethod, @property).
-"""
-
 import os
 from PIL import Image
 
@@ -61,12 +51,7 @@ class Imagem:
 
 
 def listar_imagens_do_diretorio(diretorio: str = '.') -> list:
-    """
-    Lista os arquivos .jpg/.png presentes em um diretório, em ordem alfabética.
 
-    Ficou como uma função comum (fora da classe) porque não representa
-    uma imagem específica: é apenas um utilitário do módulo.
-    """
     if not os.path.isdir(diretorio):
         raise NotADirectoryError(f"Diretório inválido: {diretorio}")
     try:

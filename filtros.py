@@ -1,15 +1,4 @@
-"""
-Módulo com as classes de Filtros.
 
-Cada filtro é uma classe própria que herda de Filtro e implementa o método
-aplicar(), recebendo uma imagem PIL.Image e retornando a imagem já filtrada.
-
-OBS: Versão simplificada, sem uso de decoradores/classe abstrata (ABC,
-@abstractmethod). O "contrato" de que todo filtro precisa ter um método
-aplicar() agora é garantido apenas por convenção: a classe-mãe Filtro
-já define aplicar() lançando um erro, então se uma subclasse esquecer de
-sobrescrever esse método, o erro avisa na hora de usar.
-"""
 
 from PIL import Image, ImageFilter, ImageOps, ImageChops
 

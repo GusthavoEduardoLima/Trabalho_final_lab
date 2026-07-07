@@ -1,13 +1,3 @@
-"""
-Módulo com a classe Download.
-
-Responsável por identificar se um caminho informado é uma URL pública
-e por baixar a imagem correspondente, salvando-a localmente.
-
-OBS: Versão simplificada, sem uso de decoradores (@staticmethod).
-Agora o Download é criado com o caminho/URL e o diretório de destino,
-e os métodos trabalham com esses dados guardados na própria instância.
-"""
 
 import os
 from urllib.parse import urlparse

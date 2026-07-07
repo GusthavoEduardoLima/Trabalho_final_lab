@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtros de Imagens</title>
+
+    <link rel="stylesheet"
+          href="../assets/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container my-5 shadow-lg bg-white rounded-4 overflow-hidden p-0">
+
+    <div class="bg-primary text-white text-center py-4">
+        <h1 class="fw-bold mb-0">Filtros de Imagens</h1>
+    </div>
+
+    <div class="row g-0">
+        
+        <div class="col-md-5 p-4 border-end">
+
+            <!-- 1. Escolher a imagem do computador -->
+            <h5 class="fw-bold">1. Escolha a imagem do seu computador</h5>
+            <input type="file" id="inputArquivo" class="form-control mb-2" accept=".jpg,.jpeg,.png">
+            <button class="btn btn-primary w-100 mb-4" id="btnCarregar">Carregar</button>
+
+            <hr>
+
+            
+            <h5 class="fw-bold">2. Escolha o filtro</h5>
+            <select id="selectFiltro" class="form-select mb-2">
+                <option value="">Selecione...</option>
+            </select>
+            <button class="btn btn-primary w-100 mb-4" id="btnAplicarFiltro">Aplicar filtro</button>
+
+            <hr>
+
+            
+            <h5 class="fw-bold">3. Imagens no diretório atual</h5>
+            <ul class="list-group mb-2" id="listaImagens" style="max-height: 200px; overflow-y: auto;"></ul>
+            <button class="btn btn-outline-secondary w-100" id="btnAtualizarLista">Atualizar lista</button>
+        </div>
+
+        <!-- Painel direito: resultado do filtro -->
+        <div class="col-md-7 p-4 text-center">
+            <h5 class="fw-bold">Resultado</h5>
+            <div class="border rounded-3 d-flex align-items-center justify-content-center mb-3"
+                 style="height: 400px; background: #f8f9fa;">
+                <img id="imgResultado" src="" alt="" style="max-width:100%; max-height:100%; display:none;">
+                <span id="semResultado" class="text-muted">Nenhum filtro aplicado ainda</span>
+            </div>
+            <div id="statusMensagem" class="alert d-none" role="alert"></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
