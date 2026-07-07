@@ -7,9 +7,7 @@ from filtros import FILTROS_DISPONIVEIS
 
 DIRETORIO_ATUAL = os.getcwd()
 
-
 app = Flask(__name__, static_folder="static", static_url_path="")
-
 
 estado = {"imagem_atual": None}
 
@@ -31,8 +29,8 @@ def api_listar_imagens():
     try:
         arquivos = listar_imagens_do_diretorio(DIRETORIO_ATUAL)
         return jsonify(arquivos)
-    except (OSError, NotADirectoryError) as erro:
-        return jsonify({"erro": str(erro)}), 400
+    except Exception as erro:
+        return jsonify({"erro": f"Erro ao listar diretório: {erro}"}), 400
 
 
 @app.route("/api/carregar", methods=["POST"])
@@ -49,7 +47,6 @@ def api_carregar_imagem():
 
     caminho_destino = os.path.join(DIRETORIO_ATUAL, nome_seguro)
 
-    
     base, extensao = os.path.splitext(caminho_destino)
     contador = 1
     while os.path.exists(caminho_destino):
@@ -64,11 +61,8 @@ def api_carregar_imagem():
         estado["imagem_atual"] = imagem
 
         return jsonify({"nome_arquivo": imagem.nome_arquivo()})
-
-    except (ValueError, FileNotFoundError, IOError, OSError, NotADirectoryError) as erro:
-        return jsonify({"erro": str(erro)}), 400
     except Exception as erro:
-        return jsonify({"erro": f"Erro inesperado: {erro}"}), 500
+        return jsonify({"erro": f"Erro ao processar arquivo: {erro}"}), 400
 
 
 @app.route("/api/carregar_existente", methods=["POST"])
@@ -88,16 +82,13 @@ def api_carregar_imagem_existente():
         estado["imagem_atual"] = imagem
 
         return jsonify({"nome_arquivo": imagem.nome_arquivo()})
-
-    except (ValueError, FileNotFoundError, IOError, OSError, NotADirectoryError) as erro:
-        return jsonify({"erro": str(erro)}), 400
     except Exception as erro:
-        return jsonify({"erro": f"Erro inesperado: {erro}"}), 500
+        return jsonify({"erro": f"Erro ao carregar imagem: {erro}"}), 400
 
 
 @app.route("/api/filtro", methods=["POST"])
 def api_aplicar_filtro():
-    """Opcao 2 do menu original: aplica o filtro escolhido na imagem carregada."""
+    """Opção 2 do menu original: aplica o filtro escolhido na imagem carregada."""
     dados = request.get_json(silent=True) or {}
     nome_filtro = dados.get("nome_filtro")
 
@@ -126,11 +117,8 @@ def api_aplicar_filtro():
             "nome_saida": nome_saida,
             "url_preview": f"/api/imagem/{nome_saida}",
         })
-
-    except (OSError, ValueError) as erro:
-        return jsonify({"erro": str(erro)}), 400
     except Exception as erro:
-        return jsonify({"erro": f"Erro inesperado ao aplicar filtro: {erro}"}), 500
+        return jsonify({"erro": f"Erro inesperado ao aplicar filtro: {erro}"}), 400
 
 
 @app.route("/api/imagem/<path:nome_arquivo>", methods=["GET"])
