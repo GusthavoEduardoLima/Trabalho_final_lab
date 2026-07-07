@@ -1,4 +1,6 @@
+// Referências aos elementos do DOM
 const inputArquivo = document.getElementById("inputArquivo");
+const inputUrl = document.getElementById("inputUrl"); // Novo campo de URL
 const selectFiltro = document.getElementById("selectFiltro");
 const listaImagens = document.getElementById("listaImagens");
 const imgResultado = document.getElementById("imgResultado");
@@ -8,10 +10,11 @@ const statusMensagem = document.getElementById("statusMensagem");
 function mostrarStatus(texto, erro = false) {
     statusMensagem.textContent = texto;
     statusMensagem.className = "alert " + (erro ? "alert-danger" : "alert-success");
+    statusMensagem.classList.remove("d-none"); // Garante que a mensagem apareça
 }
 
 function mostrarResultado(urlImagem) {
-    
+    // Adiciona timestamp para contornar o cache do navegador
     imgResultado.src = urlImagem + "?t=" + Date.now();
     imgResultado.style.display = "inline-block";
     semResultado.style.display = "none";
@@ -51,7 +54,7 @@ async function atualizarListaImagens() {
     });
 }
 
-// Opção 1: carrega a imagem escolhida no seletor de arquivos do computador
+// Opção 1A: carrega a imagem escolhida no seletor de arquivos do computador
 async function carregarImagem() {
     const arquivo = inputArquivo.files[0];
     if (!arquivo) {
@@ -76,6 +79,32 @@ async function carregarImagem() {
     }
 
     mostrarStatus(`Imagem carregada: ${dados.nome_arquivo}`);
+    atualizarListaImagens();
+}
+
+// Opção 1B: carrega a imagem a partir de uma URL (Nova Função)
+async function carregarUrl() {
+    const url = inputUrl.value.trim();
+    if (!url) {
+        mostrarStatus("Informe uma URL válida.", true);
+        return;
+    }
+
+    mostrarStatus("Baixando imagem da internet, aguarde...");
+
+    const resposta = await fetch("/api/carregar_url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url }),
+    });
+    const dados = await resposta.json();
+
+    if (!resposta.ok) {
+        mostrarStatus(dados.erro || "Erro ao baixar a imagem.", true);
+        return;
+    }
+
+    mostrarStatus(`Imagem baixada e carregada: ${dados.nome_arquivo}`);
     atualizarListaImagens();
 }
 
@@ -124,7 +153,9 @@ async function aplicarFiltro() {
     atualizarListaImagens();
 }
 
-document.getElementById("btnCarregar").addEventListener("click", carregarImagem);
+// Event Listeners (Atenção aos IDs atualizados para bater com o HTML)
+document.getElementById("btnCarregarArquivo").addEventListener("click", carregarImagem);
+document.getElementById("btnCarregarUrl").addEventListener("click", carregarUrl);
 document.getElementById("btnAplicarFiltro").addEventListener("click", aplicarFiltro);
 document.getElementById("btnAtualizarLista").addEventListener("click", atualizarListaImagens);
 
