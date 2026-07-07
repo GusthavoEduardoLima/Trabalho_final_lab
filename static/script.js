@@ -153,12 +153,10 @@ async function aplicarFiltro() {
     atualizarListaImagens();
 }
 
-// Event Listeners (Atenção aos IDs atualizados para bater com o HTML)
 document.getElementById("btnCarregarArquivo").addEventListener("click", carregarImagem);
 document.getElementById("btnCarregarUrl").addEventListener("click", carregarUrl);
 document.getElementById("btnAplicarFiltro").addEventListener("click", aplicarFiltro);
 document.getElementById("btnAtualizarLista").addEventListener("click", atualizarListaImagens);
 
-// Ao abrir a página, já popula filtros e lista de imagens
 carregarFiltros();
 atualizarListaImagens();

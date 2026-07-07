@@ -93,7 +93,7 @@ def api_carregar_url():
 
 @app.route("/api/carregar_existente", methods=["POST"])
 def api_carregar_imagem_existente():
-    """Carrega uma imagem que já está no diretório atual (escolhida na lista)."""
+   
     dados = request.get_json(silent=True) or {}
     nome_arquivo = (dados.get("nome_arquivo") or "").strip()
 
